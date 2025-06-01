@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLO Object Detection Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        video {
+            background: #000;
+            border-radius: 8px;
+            margin-top: 20px;
+            max-width: 100%;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YOLO Object Detection Live Stream</h1>
+        <div class="controls">
+            <input type="number" id="deviceId" placeholder="Enter Device ID" value="1">
+            <button onclick="startStream()">Start Stream</button>
+            <button onclick="stopStream()">Stop Stream</button>
+        </div>
+        <video id="videoPlayer" width="800" height="600" autoplay muted></video>
+    </div>
+
+    <script>
+        let videoPlayer = document.getElementById('videoPlayer');
+        let streamInterval = null;
+
+        function startStream() {
+            const deviceId = document.getElementById('deviceId').value;
+            if (!deviceId) {
+                alert('Please enter a Device ID');
+                return;
+            }
+
+            if (streamInterval) {
+                clearInterval(streamInterval);
+            }
+
+            videoPlayer.src = `http://localhost:8200/devices/${deviceId}/detection/video`;
+            videoPlayer.hidden = false;
+
+            streamInterval = setInterval(() => {
+                if (videoPlayer.readyState === 4) {  
+                    console.log('Stream is active');
+                }
+            }, 1000);
+        }
+
+        function stopStream() {
+            if (videoPlayer.src) {
+                videoPlayer.src = '';
+                videoPlayer.hidden = true;
+            }
+            if (streamInterval) {
+                clearInterval(streamInterval);
+                streamInterval = null;
+            }
+        }
+
+        // window.onload = () => {
+        //     startStream();
+        // };
+    </script>
+</body>
+</html>

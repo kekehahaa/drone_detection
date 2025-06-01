@@ -1,0 +1,1 @@
+docker-compose stop; docker stop angie; docker remove angie; docker stop fastapi; docker remove fastapi; docker stop react; docker remove react; cd angie/; docker build -t angie .; cd ..; cd fastapi/; docker build -t fastapi .; cd ..; cd react/; docker build -t react .

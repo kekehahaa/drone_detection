@@ -1,0 +1,29 @@
+version: "3"
+services:
+  angie:
+    image: angie:latest
+    network_mode: host
+    volumes:
+       - Z:\Docker\Logs\angie\logs:/var/log/angie
+    restart: unless-stopped
+
+  fastapi:
+    image: fastapi:latest
+    network_mode: host
+    privileged: true
+    ports:
+      - "127.0.0.1:8200:8200"
+    volumes:
+      - Z:\Docker\Logs\fastapi\logs:/app/logs
+    restart: unless-stopped
+
+  react:
+    image: react:latest
+    network_mode: host
+    build:
+      context: ./react
+    ports: 
+      - "127.0.0.1:5173:5173"
+    volumes:
+      -  Z:\Docker\Logs\react\logs:/app/logs
+    restart: unless-stopped
