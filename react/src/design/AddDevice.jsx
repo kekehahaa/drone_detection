@@ -56,13 +56,28 @@ export default function CreateDevice() {
     } = theme.useToken();
 
     const onFinish = async (values) => {
-        if (!('description' in values)) {
-            values.description = ""; // обязательно добавляем поле, пусть даже пустое
+    if (!('description' in values)) {
+        values.description = ""; // обязательно добавляем поле, пусть даже пустое
+    }
+    
+    // Преобразуем данные в формат, ожидаемый бэкендом
+    const requestData = {
+        device: {
+            name: values.name,
+            ip_address: values.ip_address,
+            description: values.description || ""
         }
-        await axios.post('http://localhost:8200/devices/add', values);
+    };
+    
+    try {
+        await axios.post('http://localhost:8200/devices/add', requestData);
         message.success('Создано');
         navigate('/');
-    };
+    } catch (error) {
+        message.error('Ошибка при создании устройства');
+        console.error(error);
+    }
+};
 
     return (
         <Layout style={{ minHeight: '100vh' }}>

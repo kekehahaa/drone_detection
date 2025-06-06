@@ -12,11 +12,11 @@ class YOLObjectDetection:
     def __init__(self, cap: str,
                  device: str = None,
                  model: str = "yolov8n.pt",
-                 conf_thres: float = 0.38,
-                 iou_thres_neural: float = 0.6,
-                 iou_thres_sort: float = 0.25,
-                 max_age: int = 80,
-                 min_hits: int = 5):
+                 conf_thres: float = 0.3,
+                 iou_thres_neural: float = 0.5,
+                 iou_thres_sort: float = 0.2,
+                 max_age: int = 100,
+                 min_hits: int = 4):
 
         self.frame_queue = Queue(maxsize=5)
         self.result_queue = Queue(maxsize=5)
